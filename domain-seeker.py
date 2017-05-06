@@ -30,7 +30,7 @@ def get_current_machine_public_ip():
 def get_all_domain_name(tld):
     alphabets = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
                 '1', '2', '3', '4', '5', '6', '7', '8', '9']
-    domains = [''.join(i) + '.' + tld for i in itertools.product(alphabets, repeat = 3)]
+    domains = [''.join(i) + '.' + tld for i in itertools.product(alphabets, repeat = 4)]
     return domains
 
 
