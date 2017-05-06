@@ -1,3 +1,4 @@
 /env
 configs.py
 *.pyc
+result.json
