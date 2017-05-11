@@ -4,6 +4,7 @@ import itertools
 from string import ascii_lowercase
 import json
 import argparse
+import time
 
 import configs
 
@@ -23,11 +24,17 @@ def seek(tld, length):
         with open('result.json', 'a') as result_file:
             json.dump(partly_result, result_file, indent=4)
 
-def check_availability(domains):
+def check_availability(domains, retry_count=0):
+    if(retry_count > 5): 
+        return {}
     client_ip = get_current_machine_public_ip()
     api = Api(configs.username, configs.api_key, configs.username, client_ip,
               sandbox=False, debug=False)
-    result = api.domains_check(domains)
+    try:
+        result = api.domains_check(domains)
+    except:
+        time.sleep(10)
+        check_availability(domains, retry_count + 1)
     return result
 
 def get_current_machine_public_ip():
