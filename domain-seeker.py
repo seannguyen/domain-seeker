@@ -18,22 +18,25 @@ def main():
 
 def seek(tld, length):
     domains = get_all_domain_name(tld, length)
-    for i in xrange(0, len(domains) - 1, 100):
-        print('Checking domain in range %s-%s/%s' % (i, i+100, len(domains)))
-        partly_result = check_availability(domains[i:min(i+100, len(domains))])
+    domains_per_query = 50
+    for i in xrange(0, len(domains) - 1, domains_per_query):
+        domains_query_end_range = min(i+domains_per_query, len(domains))
+        print('Checking domain in range %s-%s/%s' % (i, domains_query_end_range, len(domains)))
+        partly_result = check_availability(domains[i:domains_query_end_range])
         with open('result.json', 'a') as result_file:
             json.dump(partly_result, result_file, indent=4)
 
 def check_availability(domains, retry_count=0):
-    print('Try %s' % (retry_count + 1))
     if(retry_count > 5): 
         return {}
+    print('Try %s' % (retry_count + 1))
     client_ip = get_current_machine_public_ip()
     api = Api(configs.username, configs.api_key, configs.username, client_ip,
               sandbox=False, debug=False)
     try:
         result = api.domains_check(domains)
-    except:
+    except Exception as error:
+        print(error)
         time.sleep(10)
         result = check_availability(domains, retry_count + 1)
     return result
