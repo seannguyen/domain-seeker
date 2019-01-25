@@ -1,2 +1,2 @@
-username='sample-username'
-api_key='sample-namecheap-api-key'
+username = 'sample-username'
+api_key = 'sample-namecheap-api-key'
