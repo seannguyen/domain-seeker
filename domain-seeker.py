@@ -24,7 +24,7 @@ def seek(tld, length):
         print('Checking domain in range %s-%s/%s' % (i, domains_query_end_range, len(domains)))
         partly_result = check_availability(domains[i:domains_query_end_range])
         db_conn.executemany("INSERT INTO domains (domain, available) values (?, ?);", partly_result)
-    db_conn.commit()
+        db_conn.commit()
     db_conn.close()
 
 
@@ -34,6 +34,7 @@ def prepare_db_connection():
             CREATE TABLE IF NOT EXISTS domains(
                 domain VARCHAR(255) PRIMARY KEY,
                 available BOOLEAN NOT NULL ,
+                ranking INT NOT NULL DEFAULT 0,
                 created_at DATETIME NOT NULL DEFAULT (datetime('now')),
                 updated_at DATETIME NOT NULL DEFAULT (datetime('now'))
             );
